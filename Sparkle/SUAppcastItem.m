@@ -19,7 +19,6 @@
 @property (copy, readwrite) NSDate *date;
 @property (copy, readwrite) NSString *itemDescription;
 @property (strong, readwrite) NSURL *releaseNotesURL;
-@property (copy, readwrite) NSString *DSASignature;
 @property (copy, readwrite) NSString *minimumSystemVersion;
 @property (copy, readwrite) NSString *maximumSystemVersion;
 @property (strong, readwrite) NSURL *fileURL;
@@ -28,13 +27,16 @@
 @property (copy, readwrite) NSDictionary *deltaUpdates;
 @property (strong, readwrite) NSURL *infoURL;
 @property (readwrite, copy) NSDictionary *propertiesDictionary;
+@property (readwrite, copy) NSArray *signatures;
 @end
 
+#import <Sparkle/SUItemSignature.h>
+
 @implementation SUAppcastItem
+
 @synthesize date;
 @synthesize deltaUpdates;
 @synthesize displayVersionString;
-@synthesize DSASignature;
 @synthesize fileURL;
 @synthesize infoURL;
 @synthesize itemDescription;
@@ -44,6 +46,7 @@
 @synthesize title;
 @synthesize versionString;
 @synthesize propertiesDictionary;
+@synthesize signatures;
 
 - (BOOL)isDeltaUpdate
 {
@@ -133,7 +136,17 @@
             self.fileURL = [NSURL URLWithString:fileURLString];
         }
         if (enclosure) {
-            self.DSASignature = enclosure[SUAppcastAttributeDSASignature];
+          NSMutableArray *itemSignatures = [[NSMutableArray alloc] init];
+
+          NSString *dsa = enclosure[SUAppcastAttributeDSASignature];
+          if (dsa)
+            [itemSignatures addObject:[SUItemSignature signatureWithAlgorithm:SUSignatureAlgorithmSHA1WithDSA string:dsa]];
+
+          NSArray *signs = dict[@"signatures"];
+          if (signs)
+            [itemSignatures addObjectsFromArray:signs];
+
+          self.signatures = itemSignatures;
         }
 
         self.versionString = newVersion;
@@ -175,6 +188,14 @@
         }
     }
     return self;
+}
+
+- (SUItemSignature *)signatureForAlgorithm:(NSString *)anAlgorithm {
+  for (SUItemSignature *sign in self.signatures) {
+    if ([sign.algorithm isEqualToString:anAlgorithm])
+      return sign;
+  }
+  return nil;
 }
 
 @end

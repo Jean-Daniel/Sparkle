@@ -107,6 +107,8 @@ SU_EXPORT @interface SUUpdater : NSObject
 
 @end
 
+@protocol SUSignatureVerifier;
+
 // -----------------------------------------------------------------------------
 // SUUpdater Notifications for events that might be interesting to more than just the delegate
 // The updater will be the notification object
@@ -297,6 +299,8 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
     \param updater The SUUpdater instance.
  */
 - (void)updaterDidShowModalAlert:(SUUpdater *)updater;
+
+- (id<SUSignatureVerifier>)signatureVerifierForUpdater:(SUUpdater *)updater item:(SUAppcastItem *)item host:(SUHost *)anHost;
 
 /*!
     Called when an update is scheduled to be silently installed on quit.

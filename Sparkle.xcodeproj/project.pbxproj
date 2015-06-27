@@ -49,6 +49,9 @@
 		14950073195FCE4E00BC5B5B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D6A5FE840307C02AAC07 /* AppKit.framework */; };
 		14958C6E19AEBC950061B14F /* signed-test-file.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14958C6B19AEBC530061B14F /* signed-test-file.txt */; };
 		14958C6F19AEBC980061B14F /* test-pubkey.pem in Resources */ = {isa = PBXBuildFile; fileRef = 14958C6C19AEBC610061B14F /* test-pubkey.pem */; };
+		1B0DB2B81B3ED5E800E9E69A /* SUItemSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B0DB2B61B3ED5E800E9E69A /* SUItemSignature.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B0DB2B91B3ED5E800E9E69A /* SUItemSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0DB2B71B3ED5E800E9E69A /* SUItemSignature.m */; };
+		1B0DB2BB1B3ED9CF00E9E69A /* SUSignatureVerifierProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B0DB2BA1B3ED9CF00E9E69A /* SUSignatureVerifierProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BD90DFC1B3EA227003E4E01 /* SUXARUnarchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD90DFA1B3EA227003E4E01 /* SUXARUnarchiver.h */; };
 		1BD90DFD1B3EA227003E4E01 /* SUXARUnarchiver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BD90DFB1B3EA227003E4E01 /* SUXARUnarchiver.mm */; };
 		3772FEA913DE0B6B00F79537 /* SUVersionDisplayProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3772FEA813DE0B6B00F79537 /* SUVersionDisplayProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -344,6 +347,9 @@
 		14950074195FDF5900BC5B5B /* SUUpdaterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUUpdaterTest.m; sourceTree = "<group>"; usesTabs = 0; };
 		14958C6B19AEBC530061B14F /* signed-test-file.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "signed-test-file.txt"; sourceTree = "<group>"; };
 		14958C6C19AEBC610061B14F /* test-pubkey.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test-pubkey.pem"; sourceTree = "<group>"; };
+		1B0DB2B61B3ED5E800E9E69A /* SUItemSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUItemSignature.h; sourceTree = "<group>"; };
+		1B0DB2B71B3ED5E800E9E69A /* SUItemSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUItemSignature.m; sourceTree = "<group>"; };
+		1B0DB2BA1B3ED9CF00E9E69A /* SUSignatureVerifierProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUSignatureVerifierProtocol.h; sourceTree = "<group>"; };
 		1BD90DFA1B3EA227003E4E01 /* SUXARUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUXARUnarchiver.h; sourceTree = "<group>"; };
 		1BD90DFB1B3EA227003E4E01 /* SUXARUnarchiver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SUXARUnarchiver.mm; sourceTree = "<group>"; };
 		1BD90DFE1B3EA82B003E4E01 /* libxar.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxar.dylib; path = usr/lib/libxar.dylib; sourceTree = SDKROOT; };
@@ -867,10 +873,13 @@
 				61B5FB9509C4F04600B25A18 /* SUAppcast.m */,
 				61B5FC5309C5182000B25A18 /* SUAppcastItem.h */,
 				61B5FC5409C5182000B25A18 /* SUAppcastItem.m */,
+				1B0DB2B61B3ED5E800E9E69A /* SUItemSignature.h */,
+				1B0DB2B71B3ED5E800E9E69A /* SUItemSignature.m */,
 				61A225A20D1C4AC000430CCD /* SUStandardVersionComparator.h */,
 				61A225A30D1C4AC000430CCD /* SUStandardVersionComparator.m */,
 				61A2279A0D1CEE7600430CCD /* SUSystemProfiler.h */,
 				61A2279B0D1CEE7600430CCD /* SUSystemProfiler.m */,
+				1B0DB2BA1B3ED9CF00E9E69A /* SUSignatureVerifierProtocol.h */,
 				61A2259C0D1C495D00430CCD /* SUVersionComparisonProtocol.h */,
 				3772FEA813DE0B6B00F79537 /* SUVersionDisplayProtocol.h */,
 			);
@@ -1025,6 +1034,7 @@
 				611142E910FB1BE5009810AA /* bspatch.h in Headers */,
 				6160E7E10D3B4A8800E9CD71 /* NTSynchronousTask.h in Headers */,
 				61299B3609CB04E000B7442F /* Sparkle.h in Headers */,
+				1B0DB2BB1B3ED9CF00E9E69A /* SUSignatureVerifierProtocol.h in Headers */,
 				61CFB3290E385186007A1735 /* Sparkle.pch in Headers */,
 				61B5FC0D09C4FC8200B25A18 /* SUAppcast.h in Headers */,
 				61B5FC7009C51F4A00B25A18 /* SUAppcastItem.h in Headers */,
@@ -1041,6 +1051,7 @@
 				767B61AC1972D488004E0C3C /* SUGuidedPackageInstaller.h in Headers */,
 				61EF67590E25C5B400F754E0 /* SUHost.h in Headers */,
 				618FA5010DAE88B40026945C /* SUInstaller.h in Headers */,
+				1B0DB2B81B3ED5E800E9E69A /* SUItemSignature.h in Headers */,
 				55C14F06136EF6DB00649790 /* SULog.h in Headers */,
 				618FA5220DAE8E8A0026945C /* SUPackageInstaller.h in Headers */,
 				6102FE460E077FCE00F85D09 /* SUPipedUnarchiver.h in Headers */,
@@ -1479,6 +1490,7 @@
 			files = (
 				5D06E8EB0FD68CE4005AE3F6 /* bspatch.c in Sources */,
 				610EC1E00CF3A5FE00AE239E /* NTSynchronousTask.m in Sources */,
+				1B0DB2B91B3ED5E800E9E69A /* SUItemSignature.m in Sources */,
 				61B5FBB709C4FAFF00B25A18 /* SUAppcast.m in Sources */,
 				61B5FC6F09C51F4900B25A18 /* SUAppcastItem.m in Sources */,
 				6120721309CC5C4B007FE0F6 /* SUAutomaticUpdateAlert.m in Sources */,

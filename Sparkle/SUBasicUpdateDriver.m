@@ -20,6 +20,7 @@
 #import "SUBinaryDeltaCommon.h"
 #import "SUCodeSigningVerifier.h"
 #import "SUUpdater_Private.h"
+#import "SUSignatureVerifierProtocol.h"
 
 @interface SUBasicUpdateDriver ()
 
@@ -80,6 +81,20 @@
     }
 
     return comparator;
+}
+
+- (id<SUSignatureVerifier>)signatureVerifier {
+	id<SUSignatureVerifier> verifier = nil;
+
+	// Give the delegate a chance to provide a custom version verifier
+  if ([self.updater.delegate respondsToSelector:@selector(signatureVerifierForUpdater:item:host:)])
+    verifier = [self.updater.delegate signatureVerifierForUpdater:self.updater item:self.updateItem host:self.host];
+
+	// If we don't get a verifier from the delegate, use the default verifier
+	if (!verifier && [self.updateItem signatureForAlgorithm:SUSignatureAlgorithmSHA1WithDSA])
+		verifier = [SUDSAVerifier verifierWithKey:self.host.publicDSAKey];
+
+	return verifier;
 }
 
 - (BOOL)isItemNewer:(SUAppcastItem *)ui
@@ -219,7 +234,7 @@
     [self.download setDestination:self.downloadPath allowOverwrite:YES];
 }
 
-- (BOOL)validateUpdateDownloadedToPath:(NSString *)downloadedPath extractedToPath:(NSString *)extractedPath DSASignature:(NSString *)DSASignature publicDSAKey:(NSString *)publicDSAKey
+- (BOOL)validateUpdateDownloadedToPath:(NSString *)downloadedPath extractedToPath:(NSString *)extractedPath
 {
     BOOL isPackage = NO;
     NSString *installSourcePath = [SUInstaller installSourcePathInUpdateFolder:extractedPath forHost:self.host isPackage:&isPackage isGuided:NULL];
@@ -230,10 +245,11 @@
     
     // Modern packages are not distributed as bundles and are code signed differently than regular applications
     if (isPackage) {
-        BOOL packageValidated = [SUDSAVerifier validatePath:downloadedPath withEncodedDSASignature:DSASignature withPublicDSAKey:publicDSAKey];
+        id<SUSignatureVerifier> verifier = [self signatureVerifier];
+        BOOL packageValidated = verifier && [verifier verifyItem:self.updateItem atURL:[NSURL fileURLWithPath:downloadedPath]];
 
         if (!packageValidated) {
-            SULog(@"DSA signature validation failed. The update will be rejected.");
+            SULog(@"Signature validation failed. The update will be rejected.");
         }
         
         return packageValidated;
@@ -244,38 +260,26 @@
         SULog(@"No suitable bundle is found in the update. The update will be rejected.");
         return NO;
     }
-    
-    SUHost *newHost = [[SUHost alloc] initWithBundle:newBundle];
-    NSString *newPublicDSAKey = newHost.publicDSAKey;
-    
-    if (newPublicDSAKey != nil) {
-        if (![SUDSAVerifier validatePath:downloadedPath withEncodedDSASignature:DSASignature withPublicDSAKey:newPublicDSAKey]) {
-            SULog(@"DSA signature validation failed. The update will be rejected.");
-            return NO;
-        }
+
+    // 1) Check if signature matches. If they match, no need to perform other validation as it means the update source is trusted
+    // and the update was not corrupted.
+    NSError *error = nil;
+    if ([SUCodeSigningVerifier codeSignatureMatchesHostAndIsValid:newBundle error:&error]) {
+      return YES;
+    } else if ([SUCodeSigningVerifier hostApplicationIsCodeSigned]) {
+      // if the original application was not signed, don't considere it is an error, and fallback to good old signature check.
+      SULog(@"The update will be rejected because the code signature from the original and updated application failed to match: %@", error);
+      return NO;
     }
-    
-    BOOL dsaKeysMatch = (publicDSAKey == nil || newPublicDSAKey == nil) ? NO : [publicDSAKey isEqualToString:newPublicDSAKey];
-    if (dsaKeysMatch) {
-        NSError *error = nil;
-        if ([SUCodeSigningVerifier applicationAtPathIsCodeSigned:installSourcePath] && ![SUCodeSigningVerifier codeSignatureIsValidAtPath:installSourcePath error:&error]) {
-            SULog(@"The application to update has an invalid code signature: %@. The update will be rejected.", error);
-            return NO;
-        }
-    } else {
-        if (![SUCodeSigningVerifier hostApplicationIsCodeSigned] || ![SUCodeSigningVerifier applicationAtPathIsCodeSigned:installSourcePath]) {
-            SULog(@"Public DSA keys differ or are absent, and both apps are not code signed. The update will be rejected.");
-            return NO;
-        }
-        
-        NSError *error = nil;
-        if (![SUCodeSigningVerifier codeSignatureMatchesHostAndIsValidAtPath:installSourcePath error:&error]) {
-            SULog(@"The update will be rejected because the code signature from the original and updated application failed to match: %@", error);
-            return NO;
-        }
+
+    // 2) We have to perform an simple signature check.
+    id<SUSignatureVerifier> verifier = [self signatureVerifier];
+    BOOL packageValidated = verifier && [verifier verifyItem:self.updateItem atURL:[NSURL fileURLWithPath:downloadedPath]];
+    if (!packageValidated) {
+      SULog(@"Signature validation failed. The update will be rejected.");
     }
-    
-    return YES;
+
+    return packageValidated;
 }
 
 - (void)downloadDidFinish:(NSURLDownload *)__unused d
@@ -354,7 +358,7 @@
 {
     assert(self.updateItem);
 
-    if (![self validateUpdateDownloadedToPath:self.downloadPath extractedToPath:self.tempDir DSASignature:self.updateItem.DSASignature publicDSAKey:self.host.publicDSAKey])
+    if (![self validateUpdateDownloadedToPath:self.downloadPath extractedToPath:self.tempDir])
     {
         NSDictionary *userInfo = @{
             NSLocalizedDescriptionKey: SULocalizedString(@"An error occurred while extracting the archive. Please try again later.", nil),

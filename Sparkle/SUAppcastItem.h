@@ -11,13 +11,13 @@
 
 #import <Foundation/Foundation.h>
 #import "SUExport.h"
+#import "SUItemSignature.h"
 
 SU_EXPORT @interface SUAppcastItem : NSObject
 @property (copy, readonly) NSString *title;
 @property (copy, readonly) NSDate *date;
 @property (copy, readonly) NSString *itemDescription;
 @property (strong, readonly) NSURL *releaseNotesURL;
-@property (copy, readonly) NSString *DSASignature;
 @property (copy, readonly) NSString *minimumSystemVersion;
 @property (copy, readonly) NSString *maximumSystemVersion;
 @property (strong, readonly) NSURL *fileURL;
@@ -37,6 +37,9 @@ SU_EXPORT @interface SUAppcastItem : NSObject
 @property (readonly, copy) NSDictionary *propertiesDictionary;
 
 - (NSURL *)infoURL;
+
+@property (copy, readonly) NSArray *signatures;
+- (SUItemSignature *)signatureForAlgorithm:(NSString *)anAlgorithm;
 
 @end
 

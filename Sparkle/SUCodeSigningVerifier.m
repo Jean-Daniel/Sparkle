@@ -13,13 +13,12 @@
 
 @implementation SUCodeSigningVerifier
 
-+ (BOOL)codeSignatureMatchesHostAndIsValidAtPath:(NSString *)applicationPath error:(NSError *__autoreleasing *)error
++ (BOOL)codeSignatureMatchesHostAndIsValid:(NSBundle *)newBundle error:(NSError *__autoreleasing *)error
 {
     OSStatus result;
     SecRequirementRef requirement = NULL;
     SecStaticCodeRef staticCode = NULL;
     SecCodeRef hostCode = NULL;
-    NSBundle *newBundle;
     CFErrorRef cfError = NULL;
     if (error) {
         *error = nil;
@@ -34,13 +33,6 @@
     result = SecCodeCopyDesignatedRequirement(hostCode, kSecCSDefaultFlags, &requirement);
     if (result != noErr) {
         SULog(@"Failed to copy designated requirement. Code Signing OSStatus code: %d", result);
-        goto finally;
-    }
-
-    newBundle = [NSBundle bundleWithPath:applicationPath];
-    if (!newBundle) {
-        SULog(@"Failed to load NSBundle for update");
-        result = -1;
         goto finally;
     }
 

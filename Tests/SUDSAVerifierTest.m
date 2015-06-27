@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
 #import "SUDSAVerifier.h"
+#import "SUAppcastItem.h"
+#import "SUConstants.h"
 
 @interface SUDSAVerifierTest : XCTestCase
 @property NSString *testFile, *pubKeyFile;
@@ -69,17 +71,22 @@
 
     NSData *sig = [[NSData alloc] initWithBase64Encoding:sigString];
 
-    return [v verifyFileAtPath:aFile signature:sig];
+    return [v verifyStream:[NSInputStream inputStreamWithFileAtPath:aFile] signature:sig];
 }
 
 - (void)testValidatePath
 {
     NSString *pubkey = [NSString stringWithContentsOfFile:self.pubKeyFile encoding:NSASCIIStringEncoding error:nil];
-
-    XCTAssertTrue([SUDSAVerifier validatePath:self.testFile
-                      withEncodedDSASignature:@"MC0CFFMF3ha5kjvrJ9JTpTR8BenPN9QUAhUAzY06JRdtP17MJewxhK0twhvbKIE="
-                             withPublicDSAKey:pubkey],
-                  @"Expected valid signature");
+    SUDSAVerifier *verifier = [SUDSAVerifier verifierWithKey:pubkey];
+  SUAppcastItem *item = [[SUAppcastItem alloc] initWithDictionary:@{
+                                                                    SURSSElementEnclosure : @{
+                                                                        SUAppcastAttributeVersion: @"1.0",
+                                                                        SURSSAttributeURL: @"http://www.xenonium.com/",
+                                                                        SUAppcastAttributeDSASignature: @"MC0CFFMF3ha5kjvrJ9JTpTR8BenPN9QUAhUAzY06JRdtP17MJewxhK0twhvbKIE="
+                                                                      },
+                                                                    }];
+  XCTAssertTrue([verifier verifyItem:item atURL:[NSURL fileURLWithPath:self.testFile] ],
+                @"Expected valid signature");
 }
 
 @end

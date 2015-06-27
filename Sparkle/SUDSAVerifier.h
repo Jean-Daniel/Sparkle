@@ -17,19 +17,22 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Sparkle/SUSignatureVerifierProtocol.h>
+
 #if __MAC_OS_X_VERSION_MAX_ALLOWED < 1090
 @interface NSData (SUDSAVerifier)
 - (id)initWithBase64Encoding:(NSString *)base64String;
 @end
 #endif
 
-@interface SUDSAVerifier : NSObject
+@class SUHost;
+@interface SUDSAVerifier : NSObject <SUSignatureVerifier>
 
-+ (BOOL)validatePath:(NSString *)path withEncodedDSASignature:(NSString *)encodedSignature withPublicDSAKey:(NSString *)pkeyString;
++ (instancetype)verifierWithKey:(NSString *)pkeyString;
 
 - (instancetype)initWithPublicKeyData:(NSData *)data;
 
-- (BOOL)verifyFileAtPath:(NSString *)path signature:(NSData *)signature;
+- (BOOL)verifyItem:(SUAppcastItem *)anItem atURL:(NSURL *)anURL;
 - (BOOL)verifyStream:(NSInputStream *)stream signature:(NSData *)signature;
 
 @end

@@ -16,10 +16,13 @@
 
 #import <Sparkle/SUAppcast.h>
 #import <Sparkle/SUAppcastItem.h>
+#import <Sparkle/SUItemSignature.h>
+#import <Sparkle/SUSignatureVerifierProtocol.h>
 #import <Sparkle/SUStandardVersionComparator.h>
 #import <Sparkle/SUUpdater.h>
 #import <Sparkle/SUVersionComparisonProtocol.h>
 #import <Sparkle/SUVersionDisplayProtocol.h>
 #import <Sparkle/SUErrors.h>
+
 
 #endif

@@ -14,32 +14,20 @@
 
 #import "SUDSAVerifier.h"
 #import "SULog.h"
+#import "SUAppcastItem.h"
 #include <CommonCrypto/CommonDigest.h>
 
 @implementation SUDSAVerifier {
     SecKeyRef _secKey;
 }
 
-+ (BOOL)validatePath:(NSString *)path withEncodedDSASignature:(NSString *)encodedSignature withPublicDSAKey:(NSString *)pkeyString
-{
-    if (!encodedSignature) {
-        SULog(@"There is no DSA signature to check");
-        return NO;
++ (instancetype)verifierWithKey:(NSString *)pkeyString {
+    if (!pkeyString) {
+      SULog(@"There is no DSA public key");
+      return nil;
     }
 
-    if (!path) {
-        return NO;
-    }
-
-    SUDSAVerifier *verifier = [[self alloc] initWithPublicKeyData:[pkeyString dataUsingEncoding:NSUTF8StringEncoding]];
-
-    if (!verifier) {
-        return NO;
-    }
-
-    NSString *strippedSignature = [encodedSignature stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
-    NSData *signature = [[NSData alloc] initWithBase64Encoding:strippedSignature];
-    return [verifier verifyFileAtPath:path signature:signature];
+    return [[self alloc] initWithPublicKeyData:[pkeyString dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 - (instancetype)initWithPublicKeyData:(NSData *)data
@@ -80,13 +68,14 @@
     }
 }
 
-- (BOOL)verifyFileAtPath:(NSString *)path signature:(NSData *)signature
-{
-    if (!path.length) {
-        return NO;
-    }
-    NSInputStream *dataInputStream = [NSInputStream inputStreamWithFileAtPath:path];
-    return [self verifyStream:dataInputStream signature:signature];
+- (BOOL)verifyItem:(SUAppcastItem *)anItem atURL:(NSURL *)anURL {
+  SUItemSignature *signature = [anItem signatureForAlgorithm:SUSignatureAlgorithmSHA1WithDSA];
+  if (!signature.data) {
+    SULog(@"There is no DSA signature to check");
+    return NO;
+  }
+  NSInputStream *dataInputStream = [NSInputStream inputStreamWithURL:anURL];
+  return [self verifyStream:dataInputStream signature:signature.data];
 }
 
 - (BOOL)verifyStream:(NSInputStream *)stream signature:(NSData *)signature

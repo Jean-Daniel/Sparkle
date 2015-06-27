@@ -188,6 +188,25 @@
                     }
                     dict[name] = tags;
                 }
+        else if ([name isEqualToString:@"sparkle:signature"]) {
+           // We want to save all signature, not only the "best Node"
+           NSArray *signs = [nodesDict objectForKey:name];
+           for (NSUInteger sidx = 0, count = [signs count]; sidx < count; sidx++) {
+             NSXMLElement *elt = [signs objectAtIndex:sidx];
+             NSString *algo = [[elt attributeForName:@"sparkle:type"] stringValue];
+             if (algo) {
+               SUItemSignature *sign = [SUItemSignature signatureWithAlgorithm:algo string:[elt stringValue]];
+               if (sign) {
+                  NSMutableArray *signatures = [dict objectForKey:@"signatures"];
+                  if (!signatures) {
+                   signatures = [NSMutableArray arrayWithCapacity:count];
+                   [dict setObject:signatures forKey:@"signatures"];
+                      }
+                 [signatures addObject:sign];
+               }
+             }
+           }
+         }
 				else if (name != nil)
 				{
                     // add all other values as strings
