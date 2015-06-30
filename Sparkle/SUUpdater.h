@@ -45,6 +45,8 @@ SU_EXPORT @interface SUUpdater : NSObject
  */
 @property (copy) NSURL *feedURL;
 
+@property (readonly) NSURL *defaultFeedURL;
+
 @property (nonatomic, copy) NSString *userAgentString;
 
 @property (copy) NSDictionary *httpHeaders;
