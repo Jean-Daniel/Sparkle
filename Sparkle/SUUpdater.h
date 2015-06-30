@@ -138,6 +138,8 @@ SU_EXPORT @interface SUUpdater : NSObject
  */
 @property (copy) NSURL *feedURL;
 
+@property (readonly) NSURL *defaultFeedURL;
+
 /*!
  The host bundle that is being updated.
  */

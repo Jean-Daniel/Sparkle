@@ -62,7 +62,7 @@ void fail(SUXARUnarchiver *self) {
   bool ok = true;
 
   @autoreleasepool {
-    std::unique_ptr<const __xar_t, _xar_close> auto_x(xar_open([self.archivePath fileSystemRepresentation], READ));
+    std::unique_ptr<const __xar_t, _xar_close> auto_x(xar_open(self.archivePath.fileSystemRepresentation, READ));
     xar_t x = auto_x.get();
     if (!x)
       return fail(self);

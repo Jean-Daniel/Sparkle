@@ -447,6 +447,19 @@ static NSString *const SUUpdaterDefaultsObservationContext = @"SUUpdaterDefaults
         return [NSURL URLWithString:castUrlStr];
 }
 
+- (NSURL *)defaultFeedURL {
+    if (![NSThread isMainThread])
+      [NSException raise:@"SUThreadException" format:@"This method must be called on the main thread"];
+
+  NSString *appcastString = [self.host objectForInfoDictionaryKey:SUFeedURLKey];
+  NSCharacterSet *quoteSet = [NSCharacterSet characterSetWithCharactersInString:@"\"\'"]; // Some feed publishers add quotes; strip 'em.
+  NSString *castUrlStr = [appcastString stringByTrimmingCharactersInSet:quoteSet];
+  if (!castUrlStr || [castUrlStr length] == 0)
+    return nil;
+  else
+    return [NSURL URLWithString:castUrlStr];
+}
+
 - (NSString *)userAgentString
 {
     if (customUserAgentString) {
