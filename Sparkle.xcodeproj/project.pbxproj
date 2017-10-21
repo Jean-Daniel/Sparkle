@@ -49,8 +49,8 @@
 		14950073195FCE4E00BC5B5B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D6A5FE840307C02AAC07 /* AppKit.framework */; };
 		14958C6E19AEBC950061B14F /* signed-test-file.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14958C6B19AEBC530061B14F /* signed-test-file.txt */; };
 		14958C6F19AEBC980061B14F /* test-pubkey.pem in Resources */ = {isa = PBXBuildFile; fileRef = 14958C6C19AEBC610061B14F /* test-pubkey.pem */; };
-		1BD90DFC1B3EA227003E4E01 /* SUXARUnarchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD90DFA1B3EA227003E4E01 /* SUXARUnarchiver.h */; };
-		1BD90DFD1B3EA227003E4E01 /* SUXARUnarchiver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BD90DFB1B3EA227003E4E01 /* SUXARUnarchiver.mm */; };
+		1B1318601D9B1421006AE849 /* SUXARUnarchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B13185E1D9B1421006AE849 /* SUXARUnarchiver.h */; };
+		1B1318611D9B1421006AE849 /* SUXARUnarchiver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B13185F1D9B1421006AE849 /* SUXARUnarchiver.mm */; };
 		3772FEA913DE0B6B00F79537 /* SUVersionDisplayProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3772FEA813DE0B6B00F79537 /* SUVersionDisplayProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55C14BD4136EEFCE00649790 /* Autoupdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C14BD3136EEFCE00649790 /* Autoupdate.m */; };
 		55C14BD9136EF00C00649790 /* SUStatus.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55C14BD8136EF00C00649790 /* SUStatus.xib */; };
@@ -465,9 +465,8 @@
 		1A985A511C5C32BB0001163A /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A985A521C5C32BC0001163A /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A985A531C5C32BD0001163A /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1BD90DFA1B3EA227003E4E01 /* SUXARUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUXARUnarchiver.h; sourceTree = "<group>"; };
-		1BD90DFB1B3EA227003E4E01 /* SUXARUnarchiver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SUXARUnarchiver.mm; sourceTree = "<group>"; };
-		1BD90DFE1B3EA82B003E4E01 /* libxar.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxar.dylib; path = usr/lib/libxar.dylib; sourceTree = SDKROOT; };
+		1B13185E1D9B1421006AE849 /* SUXARUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUXARUnarchiver.h; sourceTree = "<group>"; };
+		1B13185F1D9B1421006AE849 /* SUXARUnarchiver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SUXARUnarchiver.mm; sourceTree = "<group>"; };
 		3772FEA813DE0B6B00F79537 /* SUVersionDisplayProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUVersionDisplayProtocol.h; sourceTree = "<group>"; };
 		4607BEA21948443800EF8DA4 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Sparkle.strings; sourceTree = "<group>"; };
 		4607BEA31948443800EF8DA4 /* nb */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nb; path = nb.lproj/SUAutomaticUpdateAlert.xib; sourceTree = "<group>"; };
@@ -857,7 +856,6 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1BD90DFE1B3EA82B003E4E01 /* libxar.dylib */,
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				525A278F133D6AE900FD8D70 /* Cocoa.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
@@ -1014,9 +1012,9 @@
 				6129C0B90E0B79810062CE76 /* SUPipedUnarchiver.m */,
 				61299A8B09CA790200B7442F /* SUUnarchiver.h */,
 				61299A8C09CA790200B7442F /* SUUnarchiver.m */,
-				1BD90DFA1B3EA227003E4E01 /* SUXARUnarchiver.h */,
-				1BD90DFB1B3EA227003E4E01 /* SUXARUnarchiver.mm */,
 				6102FE590E08C7EC00F85D09 /* SUUnarchiver_Private.h */,
+				1B13185E1D9B1421006AE849 /* SUXARUnarchiver.h */,
+				1B13185F1D9B1421006AE849 /* SUXARUnarchiver.mm */,
 			);
 			name = Unarchiving;
 			sourceTree = "<group>";
@@ -1259,6 +1257,7 @@
 				14652F8419A978C200959E44 /* SUExport.h in Headers */,
 				7275F9C11B5F1F2900B1D19E /* SUFileManager.h in Headers */,
 				767B61AC1972D488004E0C3C /* SUGuidedPackageInstaller.h in Headers */,
+				1B1318601D9B1421006AE849 /* SUXARUnarchiver.h in Headers */,
 				61EF67590E25C5B400F754E0 /* SUHost.h in Headers */,
 				723B25301CEAB3A600909873 /* bscommon.h in Headers */,
 				618FA5010DAE88B40026945C /* SUInstaller.h in Headers */,
@@ -1278,7 +1277,6 @@
 				61B5FCDF09C52A9F00B25A18 /* SUUpdateAlert.h in Headers */,
 				610134730DD250470049ACDF /* SUUpdateDriver.h in Headers */,
 				612DCBAF0D488BC60015DBEA /* SUUpdatePermissionPrompt.h in Headers */,
-				1BD90DFC1B3EA227003E4E01 /* SUXARUnarchiver.h in Headers */,
 				61B5F8ED09C4CE3C00B25A18 /* SUUpdater.h in Headers */,
 				6158A1C5137904B300487EC1 /* SUUpdater_Private.h in Headers */,
 				61A354550DF113C70076ECB1 /* SUUserInitiatedUpdateDriver.h in Headers */,
@@ -1817,6 +1815,7 @@
 				618FA5020DAE88B40026945C /* SUInstaller.m in Sources */,
 				55C14F07136EF6DB00649790 /* SULog.m in Sources */,
 				723B252D1CEAB3A600909873 /* bscommon.c in Sources */,
+				1B1318611D9B1421006AE849 /* SUXARUnarchiver.mm in Sources */,
 				726F2CE61BC9C33D001971A4 /* SUOperatingSystem.m in Sources */,
 				618FA5230DAE8E8A0026945C /* SUPackageInstaller.m in Sources */,
 				61D85D6D0E10B2ED00F9B4A9 /* SUPipedUnarchiver.m in Sources */,
@@ -1825,7 +1824,6 @@
 				61B93C0A0DD112FF00DCD2F8 /* SUScheduledUpdateDriver.m in Sources */,
 				61A225A50D1C4AC000430CCD /* SUStandardVersionComparator.m in Sources */,
 				6196CFFA09C72149000DC222 /* SUStatusController.m in Sources */,
-				1BD90DFD1B3EA227003E4E01 /* SUXARUnarchiver.mm in Sources */,
 				61A2279D0D1CEE7600430CCD /* SUSystemProfiler.m in Sources */,
 				61B93A3D0DD02D7000DCD2F8 /* SUUIBasedUpdateDriver.m in Sources */,
 				61299A8E09CA790200B7442F /* SUUnarchiver.m in Sources */,
@@ -2212,7 +2210,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA1941CA0D94A70100DD942E /* ConfigFrameworkDebug.xcconfig */;
 			buildSettings = {
-				CLANG_CXX_LIBRARY = "libc++";
 			};
 			name = Debug;
 		};
@@ -2220,7 +2217,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA1941D50D94A70100DD942E /* ConfigFrameworkRelease.xcconfig */;
 			buildSettings = {
-				CLANG_CXX_LIBRARY = "libc++";
 			};
 			name = Release;
 		};

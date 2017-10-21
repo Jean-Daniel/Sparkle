@@ -39,6 +39,8 @@ GCC_ENABLE_PASCAL_STRINGS = NO
 GCC_NO_COMMON_BLOCKS = YES;
 COMBINE_HIDPI_IMAGES = NO;
 
+CLANG_CXX_LIBRARY = libc++
+
 // Enable warnings
 CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES
@@ -90,4 +92,4 @@ CLANG_ENABLE_MODULES[sdk=macosx10.8] = NO
 WARNING_CFLAGS_EXTRA = -Wno-custom-atomic-properties -Wno-implicit-atomic-properties
 
 // Turn on all warnings, then disable a few which are almost impossible to avoid
-WARNING_CFLAGS = -Wall -Weverything -Wno-unused-macros -Wno-gnu-statement-expression -Wno-arc-repeated-use-of-weak -Wno-auto-import $(WARNING_CFLAGS_EXTRA)
+WARNING_CFLAGS = -Wall -Weverything -Wno-unused-macros -Wno-gnu-statement-expression -Wno-arc-repeated-use-of-weak -Wno-auto-import -Wno-c++11-compat $(WARNING_CFLAGS_EXTRA)

@@ -29,13 +29,12 @@ int32_t sa_xar_err_handler(int32_t severity, __unused int32_t instance, __unused
 }
 
 + (BOOL)canUnarchivePath:(NSString *)path {
-  if ([[path pathExtension] isEqualToString:@"xar"])
+  NSString *type = [[NSWorkspace sharedWorkspace] typeOfFile:path error:NULL];
+  if (type && [[NSWorkspace sharedWorkspace] type:type conformsToType:@"com.apple.xar-archive"])
     return YES;
 
-// XAR UTI not defined yet
-//  NSString *type = [[NSWorkspace sharedWorkspace] typeOfFile:path error:NULL];
-//  if (type && [[NSWorkspace sharedWorkspace] type:type conformsToType:@"public.xar"])
-//    return YES;
+  if ([[path pathExtension] isEqualToString:@"xar"])
+    return YES;
 
   return NO;
 }
